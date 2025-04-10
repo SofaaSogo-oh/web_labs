@@ -1,0 +1,89 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tabs a {
+  display: block;
+  padding: 10px 20px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  text-decoration: none;
+  /* Убираем подчеркивание ссылок */
+  color: #333;
+}
+
+.tabs a.active {
+  background-color: #ddd;
+}
+
+.tab-content {
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  display: none;
+  /* Скрываем все вкладки по умолчанию */
+}
+
+.document {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.type-group {
+  border: 1px solid #bbb;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #f2f2f2;
+}
+
+.author-date-group {
+  border: 1px dashed #aaa;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+label {
+  display: inline-block;
+  width: 120px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+select[multiple] {
+  height: 80px;
+  /* Чтобы список был виден */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}

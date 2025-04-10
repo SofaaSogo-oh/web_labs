@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Электронная библиотека документов</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <main>
+    <div class="tabs">
+      <a href="#" data-tab="add">Добавить</a>
+      <a href="#" data-tab="old">Старые</a>
+      <a href="#" data-tab="new">Новые</a>
+      <a href="#" data-tab="by-type">По типу</a>
+      <a href="#" data-tab="by-author-date">По автору/дате</a>
+    </div>
+
+    <div class="tab-content" id="add">
+      <h2>Добавить документ</h2>
+      <form id="add-document-form">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <label for="date">Дата создания:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="type">Тип:</label>
+        <select id="type" name="type" multiple required>
+          <option value="Статья">Статья</option>
+          <option value="Книга">Книга</option>
+          <option value="Отчет">Отчет</option>
+          <option value="Презентация">Презентация</option>
+          <option value="Другое">Другое</option>
+        </select><br><br>
+
+        <button type="submit">Добавить документ</button>
+      </form>
+    </div>
+
+    <div class="tab-content" id="old">
+      <h2>Старые документы</h2>
+      <div id="old-documents"></div>
+    </div>
+
+    <div class="tab-content" id="new">
+      <h2>Новые документы</h2>
+      <div id="new-documents"></div>
+    </div>
+
+    <div class="tab-content" id="by-type">
+      <h2>Документы по типу</h2>
+      <div id="documents-by-type"></div>
+    </div>
+
+    <div class="tab-content" id="by-author-date">
+      <h2>Документы по автору и дате</h2>
+      <div id="documents-by-author-date"></div>
+    </div>
+    </div>
+  </main>
+  <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
