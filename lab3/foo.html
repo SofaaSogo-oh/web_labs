@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <script type="text/javascript">
+        async function fetchPageContent(url) {
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+
+                const html = await response.text();
+                return html;
+
+            } catch (error) {
+                console.error("Ошибка при загрузке страницы:", error);
+                return null; // Или какое-то другое значение по умолчанию в случае ошибки
+            }
+        }
+
+        async function showPageContent(url) {
+            const pageContent = await fetchPageContent(url);
+
+            if (pageContent) {
+                // Здесь можно вывести содержимое страницы разными способами.
+                // Самый простой - просто вывести в консоль:
+                console.log(pageContent);
+
+                // Или, например, вставить в HTML:
+                document.getElementById("content").innerHTML = pageContent; // Предполагается, что в HTML есть элемент с id="content"
+            } else {
+                console.log("Не удалось загрузить страницу.");
+            }
+        }
+
+        // Пример использования:
+        showPageContent("https://gamebanana.com/mods/577352"); // Замените на нужный вам URL
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    const trampoline = (x) => {
+        while (typeof x == 'function') x = x()
+        return x;
+    }
+    const lazy = (f) => (...args) => () => f(...args);
+</script>
+<style type="text/css">
+    body.wrong { background-color: red; }
+    body.accept {background-color: green;}
+</style>
+
+<htm>
+    <head>
+    </head>
+    <body>
+        <script type="text/javascript">
+        function clc_sum(n) {
+            const f = lazy((n, res) => 
+                n == 0 ? res : f(n / 10|0, res+(n % 10)))
+            return trampoline(f(n, 0));
+        }
+        function task2(n, m) {
+            const chck = (x) => clc_sum(x) == m ? 1 : 0;
+            const f = lazy((k, end_k, res) => 
+                k == end_k 
+                    ? res 
+                    : f(k + 1,
+                        end_k,
+                        res + chck(k)));
+            return trampoline(f( 
+                Math.pow(10, n-1)|0,
+                Math.pow(10, n)|0,
+                0));
+        }
+        const wrong_screen = () => {
+            document.body.classList.add("wrong");
+            document.body.classList.remove("accept");
+        };
+        const accept_screen = () => {
+            document.body.classList.add("accept");
+            document.body.classList.remove("wrong");
+        };
+        {
+            let N = prompt("Enter N:");
+            let M = prompt("Enter M:");
+            {
+                let res = task2(N, M);
+                if (res == 0 || isNaN(res)) {
+                    alert("Нет");
+                    wrong_screen();
+                }
+                else {
+                    alert(res);
+                    accept_screen();
+                }
+            }
+        }
+        </script>
+    </body>
+</html>

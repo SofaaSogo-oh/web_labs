@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <script type="text/javascript">
+        const trampoline = (x) => {
+            while (typeof x == 'function') x = x()
+            return x;
+        }
+        const lazy = (f) => (...args) => () => f(...args);
+    </script>
+    <head>
+        <title>
+            Задание 1
+        </title>
+    </head>
+    <body>
+        <h1 id="task1_help">
+            Задание 1
+        </h1>
+        <p id="task1_note"></p>
+        <script type="text/javascript">
+            document.getElementById("task1_help").onclick = function() {
+                document.getElementById("task1_note").innerHTML = "FOO";
+            }
+            document.getElementById("task1_note").onclick = function() {
+                document.getElementById("task1_note").innerHTML = null;
+            }
+        </script>
+        <div>
+            <div style="display:flex">
+                <p>N: </p>
+                <input type="number" id="task_input_n" value="1">
+            </div>
+            <div style="display: flex;">
+                <p>K: </p>
+                <input type="number" id="task_digits_count" value="3">
+            </div>
+        </div>
+        <input type="button" id="task_submit" value="Ввод" onclick="task1()">
+        <input type="button" id="task_submit_long" value="Ввод (долго)" onclick="task1_long()">
+        <p id="task_result" onclick="task1()">
+            Результат...
+        </p>
+        <p id="task_result_long" onclick="task1_long()">
+            Результат... долгих вычислений...
+        </p>
+        <table>
+            <tr>
+                <td id="t_year"></td>
+                <td id="t_day"></td>
+                <td id="t_mouth"></td>
+            </tr>
+            <tr>
+                <td id="t_week"></td>
+                <td id="t_session"></td>
+            </tr>
+        </table>
+        <button id="t_days_memory" onclick="mem_date()">Memory date</button>
+        <script type="text/javascript">
+            window.onload = function() {
+                let date = new Date();
+                var weekend = ["Sunday","Monday", "Tuesday", "Wendesday", "Thursday", "Friday", "Saturday"];
+                document.getElementById("t_year").innerHTML = date.getFullYear();
+                document.getElementById("t_day").innerHTML = date.getDay();
+                document.getElementById("t_mouth").innerHTML = date.getMonth();
+                document.getElementById("t_week").innerHTML = weekend[date.getDay() % 7];
+                var session = new Date(2025, 5, 10);
+                document.getElementById("t_session").innerHTML = Math.ceil((session - date) / (1000 * 60 * 60 * 24));
+            };
+
+            function isLeapYear(year) {
+                return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            }
+            function isValidDate(day, month, year) {
+                if (isNaN(day) || isNaN(month) || isNaN(year)) return false;
+                if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900) return false;
+
+                const daysInMonth = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                if (day > daysInMonth[month]) return false;
+                return true;
+            }
+
+            function mem_date () {
+                let now = new Date();
+                let memoryDate = prompt("Enter your date: DD.MM.YYYY").split(".");
+                let day = parseInt(memoryDate[0].trim());
+                let month = parseInt(memoryDate[1].trim());
+                let year = parseInt(memoryDate[2].trim());
+                if (!isValidDate(day, month, year)) {
+                    alert('Incorrect value');
+                    return;
+                }
+                let memorydate = new Date(year, month, day);
+                let timeDiff = now.getTime() - memorydate.getTime();
+                let daysFromMemory = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                document.getElementById("t_days_memory").innerHTML = daysFromMemory;
+            }
+        </script>
+        <script type="text/javascript">
+        function task1() {
+            function clc(n, K) {
+                const sums_dgts = lazy((k, dp) =>
+                    k >= K
+                        ? dp.reduce((acc, cur) => acc+cur)
+                        : sums_dgts(
+                                k + 1,
+                                (()=>{
+                                    let dp_tmp = Array(n).fill(0);
+                                    for (let j = 0; j < n; ++j) {
+                                        for (let d = 0; d < 10; ++d)
+                                            if (j - d >= 0)
+                                                dp_tmp[j] += dp[j - d];
+                                    }
+                                    console.log(dp);
+                                    return dp_tmp;
+                                })()
+                            ));
+                let init_arr = Array(n).fill(0);
+                init_arr[0] = 1;
+                return trampoline(sums_dgts(0, init_arr)) - 1;
+            }    
+
+            let n = document.getElementById("task_input_n").value;
+            let res = document.getElementById("task_result");
+            let k = document.getElementById("task_digits_count").value;
+            res.innerHTML = clc(parseInt(n), parseInt(k));
+
+        }
+        </script>
+        <script type="text/javascript">
+        function task1_long() {
+            function clc(n, K) {
+                const sum_dgts = lazy((k, res) =>
+                    k == 0
+                        ? res
+                        : sum_dgts(
+                            k/10|0,
+                            res+k%10
+                        ));
+                const f = lazy((k, res) => 
+                    k >= Math.pow(10, K + 1)
+                        ? res 
+                        : f(
+                            k + 1,
+                            trampoline(sum_dgts(k, 0)) < n
+                                ? res + 1
+                                : res
+                        ));
+                return trampoline(f(Math.pow(10, K), 0))
+            }
+
+            let docs = {
+                n: document.getElementById("task_input_n").value,
+                res: document.getElementById("task_result_long"),
+                k: document.getElementById("task_digits_count").value,
+            };
+            docs.res.innerHTML = clc(parseInt(docs.n), parseInt(docs.k));
+        }
+        </script>
+        <!-- <input type="button" id="seq_butt" title="sequence"> -->
+         <button id="seq_butt">
+            Sequence
+         </button>
+        <p id="seq_ans"></p>
+        <script type="text/javascript">
+            function isPositiveInteger(str) {
+                if (typeof str !== 'string') {
+                    return false;
+                }
+                const num = Number(str);
+                if (Number.isInteger(num) && num > 0) {
+                    return true;
+                }
+                return false;
+            }
+
+            document.getElementById("seq_butt").onclick = function() {
+                function clc(n) {
+                    console.log(n);
+                    const iter_f = lazy((k,acc_p, res)=>{
+                        return k > n 
+                            ? res
+                            : iter_f(k + 1, acc_p * (-2), res + 1 + acc_p)
+                    });
+                    return trampoline(iter_f(1, 1, 0));
+                }
+                let n = prompt("Enter n");
+                if (!isPositiveInteger(n)) {
+                    alert("Wrong");
+                    return;
+                }
+                document.getElementById("seq_ans").innerHTML = clc(parseInt(n));
+            }
+        </script>
+    </body>
+</html>

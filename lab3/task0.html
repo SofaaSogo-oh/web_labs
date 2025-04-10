@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
+        width: 100px;
+        height: 100px;
+    }
+
+    .r1 {
+        background-color: pink;
+    }
+
+    .r2 {
+        background-color: cyan;
+    }
+</style>
+
+<body>
+    <script type="text/javascript">
+        var str, sel, n = 8, i, j;
+        document.write("<table>");
+        for (i = 0; i < n; i++) {
+            document.write("<tr>");
+            for (j = 0; j < n; j++) {
+                let sel = (i + j) % 4 <= 1 ? 1 : 0;
+                if (sel == 0) 
+                    str = "class='r1'";
+                else 
+                    str = "class='r2'";
+                if (i == 0 && j == 0) 
+                    document.write("<td " + str + "><div class='circle_black'></div></td>");
+                else if (i == 7 && j == 7) 
+                    document.write("<td " + str + "><div class='circle_white'></div></td>");
+                else 
+                    document.write("<td " + str + "></td>");
+            }
+            document.write("</tr>");
+        }
+        document.write("</table>");
+    </script>
+</body>
+
+</html>

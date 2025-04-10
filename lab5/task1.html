@@ -1,0 +1,108 @@
+<!-- 1 2 1 2 5 2 8 2 1 1 2 -->
+
+<!-- Масштаб через URI -->
+
+<!-- кнопки или другие удобные интерактивные, кликабельные элементы, которые
+работают в паре: нажатие на одну приводит к смещению влево, нажатие на другую
+приводит к смещению — вправо -->
+<!-- параметр указываемый в параметре URI (как смещение вверх — отрицательное
+число пикселей, смещение вниз — положительное число пикселей) вверх-вниз -->
+<!-- Штрих-пунктир -->
+<!-- ln^2(1-x) -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>task1</title>
+    <style>
+        #graph-container {
+            position: relative; 
+            width: 600px; 
+            height: 400px; 
+            border: 1px solid black; 
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between;">
+        <button id="m-l">Влево</button>
+        <p id="m-x">0.0</p>
+        <button id="m-r">Вправо</button>
+    </div>
+
+    <div id="graph-container"></div>
+
+    <script type="text/javascript">
+        let func = (x) => Math.log(1 - x) * Math.log(1 - x);
+
+        let params = new URLSearchParams(window.location.search);
+
+        let k = parseFloat(params.get("k"));
+        if (isNaN(k)) {
+            k = 50; 
+        }
+
+        let y0 = parseFloat(params.get("y0"));
+        if (isNaN(y0)) {
+            y0 = 0; 
+        }
+
+        let pixel = "<div style='width: 2px;height: 2px;background-color: black;'></div>";
+        let pose_pixel = (x, y, pixel) => `<div style='position:absolute;left:${x}px;top:${y}px'>${pixel}</div>`;
+
+        let graphContainer = document.getElementById("graph-container");
+
+        function graph(x0, y0, x1, y1) {
+            let xstr = "";
+            for (let x = -15; x <= 15; x += 0.1) {
+                let y = k * (y1 - y0 - 20 * func(x - x0)); 
+                if (400 >= y && y >= 0)
+                    xstr += pose_pixel(20 * x + x1, y, pixel);
+            }
+            graphContainer.innerHTML = xstr; 
+        }
+
+        function linev(x, y1, y2) {
+            let xstr = "";
+            for (let y = y1; y <= y2; y += 4) {
+                xstr += pose_pixel(x, y, pixel);
+            }
+            graphContainer.innerHTML += xstr;
+        }
+
+        function lineh(y, x1, x2) {
+            let xstr = "";
+            for (let x = x1; x <= x2; x += 4)
+                xstr += pose_pixel(x, y, pixel);
+            graphContainer.innerHTML += xstr; 
+        }
+
+        let mx = document.getElementById("m-x");
+
+        let main = () => {
+            let x0 = parseFloat(mx.innerHTML);
+            graphContainer.innerHTML = "";
+            graph(x0, y0, 300, 200); 
+            linev(300 + x0 * 20, 0, 400); 
+            lineh(k * (200 - y0), 0, 600);
+        };
+
+
+        let modify = (f) => () => {
+            let x = parseFloat(mx.innerHTML);
+            let newX = f(x);
+            mx.innerHTML = newX.toFixed(1); 
+            main();
+        };
+
+        document.getElementById("m-l").onclick = modify((x) => x - 0.1);
+        document.getElementById("m-r").onclick = modify((x) => x + 0.1);
+
+        
+        main();
+
+    </script>
+</body>
+</html>

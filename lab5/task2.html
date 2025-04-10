@@ -1,0 +1,88 @@
+<!-- 2 8 2 1 1 2 -->
+<!-- случайным образом (генерируется по нажатию на кнопку либо какого-то другого
+кликабельный элемент и отображается на странице). При этом возможно два случая
+отображения раздачи: в не редактируемых текстовых полях либо в виде изображений
+картинок карт (рекомендуется).8 -->
+<!-- Один номинал -->
+<!-- map -->
+<!-- без исключений -->
+<!-- инфа в консооль -->
+<!-- sort -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>task2</title>
+    </head>
+    <body>
+        <img id="card0">
+        <img id="card1">
+        <img id="card2">
+        <img id="card3">
+        <img id="card4">
+        <p id="pcard0"></p>
+        <p id="pcard1"></p>
+        <p id="pcard2"></p>
+        <p id="pcard3"></p>
+        <p id="pcard4"></p>
+    </body>
+    <script type="text/javascript">
+        function create_deck() {
+            const ranks = ["K", "Q", "A", "J", "2", "3", "4", "5", "6", "7", "8", "9"]
+            const suits = ["club", "diamond", "heart", "spade"];
+            const deck = [];
+            for (const suit of suits)
+                for (const rank of ranks) 
+                    deck.push({ suit: suit, rank: rank });
+            return deck;
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+            return deck;
+        }
+
+        function dealCard(deck) {
+            if (deck.length > 0) {
+                return deck.pop();
+            } else {
+                return null; // Колода пуста
+            }
+        }
+
+        function dealCards(deck, numberOfCards) {
+            const hand = [];
+            for (let i = 0; i < numberOfCards; i++) {
+                const card = dealCard(deck);
+                if (card) {
+                hand.push(card);
+                } else {
+                console.warn("Недостаточно карт в колоде!");
+                break; // Выходим, если колода закончилась
+                }
+            }
+            return hand;
+        }
+
+        function show_card(dest, src) {
+            dest.src = `cards/40px-Playing_card_${src["suit"]}_${src["rank"]}.svg.png`;
+        }
+        
+        function show_cards(deck) {
+            [...Array(5).keys()].map((x)=> show_card(document.getElementById(`card${x}`), deck[x]));
+            [...Array(5).keys()].map((x)=> {document.getElementById(`pcard${x}`).innerHTML = `{suit: ${deck[x]["suit"]}, rang: ${deck[x]["rank"]}}`})
+        }
+
+        function main() {
+            let deck = dealCards(shuffleDeck(create_deck()), 5);
+            let check = deck.reduce((a, b) => (a["suit"] == b["suit"] ? a["suit"] : {suit: null}))["suit"]
+            console.log(check == null ? "no" : "yes");
+            console.log(check);
+            show_cards(deck);
+        }
+        main();
+    </script>
+</html>

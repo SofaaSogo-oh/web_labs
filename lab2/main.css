@@ -1,0 +1,106 @@
+:root {
+  --base-color: #f5f5f5;
+  /* Светлый фон */
+  --text-color: #333333;
+  /* Темный текст, читабельный на светлом фоне */
+  --secondary-text: #795548;
+  /* Более темный вторичный текст */
+  --primary-color: #d4c4c4;
+  /* Светлая основа для первичных элементов */
+  --secondary-color: #556443;
+  /* Цвет вторичных элементов, немного темнее основного текста*/
+  --primary-accent-color: #a83f42;
+  /* Акцент, примерно как в темной теме, чуть светлее */
+  --secondary-accent-color: #8a5173;
+  /* Второй акцент, тоже немного светлее */
+  --semi-bkg-color: #ffffffAA;
+  --image-filter: none;
+}
+
+.darkmode {
+  --base-color: #1b1616;
+  --text-color: #96a27f;
+  --secondary-text: #d8ac6a;
+  --primary-color: #493131;
+  --secondary-color: #96a27f;
+  --primary-accent-color: #ad3235;
+  --secondary-accent-color: #75234e;
+  --semi-bkg-color: #0f0c15AA;
+  --image-filter: invert(1);
+}
+
+body {
+  background-color: var(--base-color);
+  color: var(--text-color);
+  position: relative;
+}
+
+body::before {
+  background-image: url(bkg.png);
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  filter: var(--image-filter);
+}
+footer {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+div.footer-content {
+  width: 95%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--semi-bkg-color);
+}
+hr {
+  color: var(--primary-accent-color);
+}
+a {
+  color: var(--primary-accent-color);
+}
+a:visited {
+  color: var(--secondary-accent-color);
+}
+a.in-bar-namepage{
+  font-family: 'Arial', sans-serif; /* Или другой шрифт */
+  font-size: 2.5ex;              
+  text-decoration: none;
+  transition: color 0.1s ease;
+}
+a.in-bar-namepage:visited{
+  color: var(--primary-accent-color);
+}
+a.in-bar-namepage:hover{
+  color: var(--secondary-accent-color);
+}
+.theme-image {
+  filter: var(--image-filter);
+}
+div.in-bar {
+  display: flex;
+  padding: 5px;
+}
+div.bar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--semi-bkg-color);
+  border-top: 3px solid var(--secondary-accent-color);
+  border-left: 3px solid var(--secondary-accent-color);
+  border-bottom: 4px solid var(--primary-accent-color); 
+  border-right: 4px solid var(--primary-accent-color); 
+}
+#headerMain {
+    height: 100px;
+    margin:0px auto;
+    z-index:0;
+}

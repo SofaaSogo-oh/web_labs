@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    const trampoline = (x) => {
+        while (typeof x == 'function') x = x()
+        return x;
+    }
+    const lazy = (f) => (...args) => () => f(...args);
+</script>
+<style type="text/css">
+    body.wrong { background-color: red; }
+    body.accept {background-color: green;}
+</style>
+
+<htm>
+    <head>
+    </head>
+    <body>
+        <script type="text/javascript">
+        function clc (n) {
+            const f = lazy((n, res) => 
+                n == 0 ? res : f(n / 10|0, res+(n % 10)));
+            return trampoline(f(n, 0));
+        }
+        const wrong_screen = () => {
+            document.body.classList.add("wrong");
+            document.body.classList.remove("accept");
+        };
+        const accept_screen = () => {
+            document.body.classList.add("accept");
+            document.body.classList.remove("wrong");
+        };
+        {
+            let N = prompt("Enter N:");
+            {
+                let res = clc(N);
+                if (res == 1 || isNaN(res)) {
+                    alert("Нет");
+                    wrong_screen();
+                }
+                else {
+                    alert(clc(N));
+                    accept_screen();
+                }
+            }
+        }
+        </script>
+    </body>
+</html>
