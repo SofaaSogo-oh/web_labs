@@ -1,0 +1,22 @@
+<h2>Добавить документ</h2>
+<form id="add-document-form">
+  <label for="title">Название:</label>
+  <input type="text" id="title" name="title" required><br><br>
+
+  <label for="author">Автор:</label>
+  <input type="text" id="author" name="author" required><br><br>
+
+  <label for="date">Дата создания:</label>
+  <input type="date" id="date" name="date" required><br><br>
+
+  <label for="type">Тип:</label>
+  <select id="type" name="type" multiple required>
+    <option value="Статья">Статья</option>
+    <option value="Книга">Книга</option>
+    <option value="Отчет">Отчет</option>
+    <option value="Презентация">Презентация</option>
+    <option value="Другое">Другое</option>
+  </select><br><br>
+
+  <button type="submit">Добавить документ</button>
+</form>

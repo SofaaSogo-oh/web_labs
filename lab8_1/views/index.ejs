@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Documents</title>
+</head>
+<body>
+    <h1>Documents</h1>
+    <ul>
+        <% documents.forEach(document => { %>
+            <li>
+                <strong><%= document.title %></strong> by <%= document.author %>
+                (Type: <%= document.type.join(', ') %>)
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
